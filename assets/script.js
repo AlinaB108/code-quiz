@@ -1,4 +1,4 @@
-// Pseudo code - Code quiz 10 questions and 60seconds to answer
+// Pseudo code - Code quiz 10 questions and 75 seconds to answer
 //Create global variables for timer, score, questions and initials
 // Start the quiz
   //Add a button to start the quiz, answers should be clickable too
@@ -13,3 +13,16 @@
 //Save initials and score (make a list for future score where we can add text with via JS?)
   //Add a button to save the progress
 
+var rules;
+var startBtn;
+var question;
+var answers;
+var choice;
+var response;
+var counter;
+var score;
+// Variables for score.html
+var initials;
+var submit;
+var backBtn;
+var scoreBtn;
