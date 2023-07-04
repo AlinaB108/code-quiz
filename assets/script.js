@@ -13,14 +13,16 @@
 //Save initials and score (make a list for future score where we can add text with via JS?)
   //Add a button to save the progress
 
-var rules;
-var startBtn;
-var quizField = document.querySelector("quizField");
+// Why can't I remove an element when it's document.querySelector but I can remove it when it's getElementById?
+var rules = document.getElementById("rules");
+var startBtn = document.getElementById("startBtn");
+var quizField = document.getElementById("quizField");
 var question;
 var answers;
 var choice;
 var response;
-var counter;
+var counter = 15;
+var counterDisplay = document.getElementById("counterDisplay");
 var score;
 // Variables for score.html
 var initials;
@@ -90,3 +92,26 @@ var quizQuestions = [
     answer: "global"
   }
 ];
+
+//Adding a button to start the quiz
+startBtn.addEventListener("click", startQuiz);
+//Adding a function to start the quiz when the button is pressed
+function startQuiz () {
+  rules.remove("rules");
+  startBtn.remove("startBtn");
+
+  function countdown() {
+    counter--;
+    document.getElementById("counterDisplay").innerHTML = String(counter);
+    if (counter >= 0) {
+      setTimeout(countdown, 1000);
+      // How not to show -1
+    } else if (counter <= 0) {
+      alert("Time's up!");
+    }
+  };
+  
+  setTimeout(countdown, 1000);
+  // showQuestions()
+};
+
