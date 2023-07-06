@@ -1,131 +1,107 @@
-// What is the expected behavior for the user (what user sees)
-//A user opens the page and sees the timer and highscore at the top of the page. Below there is a heading with quiz name and rules, a bit lower there is a start button.
-//When user clicks on a button the quiz starts
-//The timer starts the countdown
-//There is a question and 4 answers, when user clicks on one of the answers he is presented with next question
-//Also, if answer was correct user gets score points, if answer was wrong he loses 15sec
+//Questions
+var quizQuestions = [
+  {
+    question: "How do you write 'Hello World' in an alert box?",
+    choices: ["msgBox('Hello World');" , "alert('Hello World);" , "msg('Hello World');" , "alertBox('Hello World);"],
+    answer: "alert('Hello World);"
+  },
 
+  {
+    question: "How do you call a function named 'myFunction'?",
+    choices: ["call function myFunction()" , "call myFunction()" , "myFunction()" , "function call myFunction()"],
+    answer: "myFunction"
+  },
+
+  {
+    question: "How to write an IF statement?",
+    choices: ["if i === 5 then" , "if (i == 5)" , "if i = 5 then" , "if i = 5"],
+    answer: "if (i == 5)"
+  },
+
+  {
+    question: "How does a FOR loop start?",
+    choices: ["for (i = 0; i <= 5)" , "for i = 1 to 5" , "for (i = 0; i <=5; i++)" , "for (i <=5; i++)"],
+    answer: "for (i = 0; i <=5; i++)"
+  },
+
+  {
+    question: "Which event occurs when the user clicks on an HTML element?",
+    choices: ["onclick" , "onmouseover" , "onmouseclick" , "onchange"],
+    answer: "onclick"
+  },
+
+  {
+    question: "What will the following  code return: Boolean(10 > 9)?",
+    choices: ["NaN", "Undefined", "true", "false"],
+    answer: "true"
+  },
+
+  {
+    question: "Which of the followings are primitive data types in JavaScript?",
+    choices: ["String" , "Number" , "Boolean" , "All of the above"],
+    answer: "All of the above",
+  },
+
+  {
+    question: "What is null in JavaScript?",
+    choices: ["Empty string value" , "Absence of a value" , "Unknown value" , "Zero value"],
+    answer: "Zero value"
+  },
+
+  {
+    question: "Which of the following object represent parameters of current function inside any function?",
+    choices: ["Global" , "arguments" , "this" , "Object"],
+    answer: "arguments"
+  },
+
+  {
+    question: "A variable declared without var keyword inside a function will become _______ variable.",
+    choices: ["local" , "global" , "block" , "undefined"],
+    answer: "global"
+  }
+];
+
+//Variables
 var rules = document.getElementById("rules");
 var startBtn = document.getElementById("startBtn");
 var rules = document.getElementById("introduction");
 var quizField = document.getElementById("quizField");
 var question = document.getElementById("question");
-var answerBtn = document.getElementById("answerBtn");
+var answer = document.getElementById("answer");
+var correctWrong = document.getElementById("correctWrong");
 var currentQuestionIndex = 0;
 var timeLeft = 75;
 var score = 0;
+var timerInterval;
 
+//Keeps the quizField hidden before we start the game
 quizField.style.visibility = "hidden";
-// Create answerBtn and add it later
+
 startBtn.addEventListener('click', startQuiz);
 
+//Function which hides some blocks with text
 function startQuiz() {
   startBtn.style.display = "none";
   introduction.style.display = "none";
   quizField.style.visibility = "visible";
-  currentQuestionIndex = 0;
-  score = 0;
-  timeLeft = 75;
+  timerInterval = setInterval(updateTimer, 1000);
+  showQuestion();
+  // showHighScore(); add a function later
 }
 
-var quizQuestions = [
-  {
-    question: "How do you write 'Hello World' in an alert box?",
-    answers: [
-      {text: "msgBox('Hello World');", correct: false},
-      {text: "alert('Hello World);", correct: true},
-      {text: "msg('Hello World');", correct: false},
-      {text: "alertBox('Hello World);", correct: false}
-    ]
-  },
+//Function which shows the questions after we clicked the button
+function showQuestion() {
+    //Display questions
+    var quizState = quizQuestions[currentQuestionIndex];
+    quizField.innerText= `${currentQuestionIndex + 1}. ${quizState.question}`;
+    answerField.innerHTML='';
+}
 
-  {
-    question: "How do you call a function named 'myFunction'?",
-    answers: [
-      {text: "call function myFunction()", correct: false},
-      {text: "call myFunction()", correct: false},
-      {text: "myFunction()", correct: true},
-      {text: "function call myFunction()", correct: false}
-    ]
-  },
-
-  {
-    question: "How to write an IF statement?",
-    answers: [
-      {text: "if i === 5 then", correct: false},
-      {text: "if (i == 5)", correct: true},
-      {text: "if i = 5 then", correct: false},
-      {text: "if i = 5", correct: false}
-    ]
-  },
-
-  {
-    question: "How does a FOR loop start?",
-    answers: [
-      {text: "for (i = 0; i <= 5)", correct: false},
-      {text: "for i = 1 to 5", correct: false},
-      {text: "for (i = 0; i <=5; i++)", correct: true},
-      {text: "for (i <=5; i++)", correct: false} 
-    ]
-  },
-
-  {
-    question: "Which event occurs when the user clicks on an HTML element?",
-    answers: [
-      {text: "onclick", correct: true},
-      {text: "onmouseover", correct: false},
-      {text: "onmouseclick", correct: false},
-      {text: "onchange", correct: false}
-    ]
-  },
-
-  {
-    question: "What will the following  code return: Boolean(10 > 9)?",
-    answers: [
-      {text: "NaN", correct: false},
-      {text: "Undefined", correct: false},
-      {text: "true", correct: true},
-      {text: "false", correct: false}
-    ]
-  },
-
-  {
-    question: "Which of the followings are primitive data types in JavaScript?",
-    answers: [
-      {text: "String", correct: false},
-      {text: "Number", correct: false},
-      {text: "Boolean", correct: false},
-      {text: "All of the above", correct: true}
-    ]
-  },
-
-  {
-    question: "What is null in JavaScript?",
-    answers: [
-      {text: "Empty string value", correct: false},
-      {text: "Absence of a value", correct: false},
-      {text: "Unknown value", correct: false},
-      {text: "Zero value", correct: true}
-    ]
-  },
-
-  {
-    question: "Which of the following object represent parameters of current function inside any function?",
-    answers: [
-      {text: "Global", correct: false},
-      {text: "arguments", correct: true},
-      {text: "this", correct: false},
-      {text: "Object", correct: false}
-    ]
-  },
-
-  {
-    question: "A variable declared without var keyword inside a function will become _______ variable.",
-    answers: [
-      {text: "local", correct: false},
-      {text: "global", correct: true},
-      {text: "block", correct: false},
-      {text: "undefined", correct: false}
-    ]
+//Timer
+function updateTimer() {
+  timeLeft--;
+  if (timeLeft <= 0) {
+      endQuiz();
   }
-];
+  timer.textContent = timeLeft;
+}
