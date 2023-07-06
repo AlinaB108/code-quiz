@@ -65,17 +65,16 @@ var quizQuestions = [
 var rules = document.getElementById("rules");
 var startBtn = document.getElementById("startBtn");
 var rules = document.getElementById("introduction");
-var quizField = document.getElementById("quizField");
-var question = document.getElementById("question");
-var answer = document.getElementById("answer");
+var quizQuestion = document.getElementById("quizQuestion");
 var correctWrong = document.getElementById("correctWrong");
+var quizAnswers = document.getElementById("quizAnswers");
 var currentQuestionIndex = 0;
 var timeLeft = 75;
 var score = 0;
 var timerInterval;
 
-//Keeps the quizField hidden before we start the game
-quizField.style.visibility = "hidden";
+//Keeps the quizQuestion hidden before we start the game
+quiz.style.visibility = "hidden";
 
 startBtn.addEventListener('click', startQuiz);
 
@@ -83,7 +82,7 @@ startBtn.addEventListener('click', startQuiz);
 function startQuiz() {
   startBtn.style.display = "none";
   introduction.style.display = "none";
-  quizField.style.visibility = "visible";
+  quiz.style.visibility = "visible";
   timerInterval = setInterval(updateTimer, 1000);
   showQuestion();
   // showHighScore(); add a function later
@@ -92,9 +91,18 @@ function startQuiz() {
 //Function which shows the questions after we clicked the button
 function showQuestion() {
     //Display questions
-    var quizState = quizQuestions[currentQuestionIndex];
-    quizField.innerText= `${currentQuestionIndex + 1}. ${quizState.question}`;
-    answerField.innerHTML='';
+  var quizState = quizQuestions[currentQuestionIndex];
+  quizQuestion.innerText= `${currentQuestionIndex + 1}. ${quizState.question}`;
+  quizAnswers.innerHTML= "";
+
+  for (var i = 0; i < quizState.choices.length; i++) {
+      var createLi = document.createElement("li");
+      var option = document.createElement("button");
+      option.textContent = quizState.choices[i];
+      option.dataset.index = i;
+      createLi.appendChild(option);
+      quizAnswers.appendChild(option);
+  } 
 }
 
 //Timer
