@@ -2,8 +2,8 @@
 var quizQuestions = [
   {
     question: "How do you write 'Hello World' in an alert box?",
-    choices: ["msgBox('Hello World');" , "alert('Hello World);" , "msg('Hello World');" , "alertBox('Hello World);"],
-    answer: "alert('Hello World);"
+    choices: ["msgBox('Hello World');" , "alert('Hello World');" , "msg('Hello World');" , "alertBox('Hello World);"],
+    answer: "alert('Hello World');"
   },
 
   {
@@ -68,7 +68,7 @@ var rules = document.getElementById("introduction");
 var quizQuestion = document.getElementById("quizQuestion");
 var correctWrong = document.getElementById("correctWrong");
 var quizAnswers = document.getElementById("quizAnswers");
-var timer = document.getElementById('timer');
+var timer = document.getElementById("timer");
 var currentQuestionIndex = 0;
 var timeLeft = 75;
 var score = 0;
@@ -101,7 +101,7 @@ function showQuestion() {
       var option = document.createElement("button");
       option.textContent = quizState.choices[i];
       option.dataset.index = i;
-      option.addEventListener("click", checkAnswer);
+      option.addEventListener("click", () => checkAnswer(parseInt(option.dataset.index)));
       createLi.appendChild(option);
       quizAnswers.appendChild(option);
   } 
@@ -111,10 +111,13 @@ function showQuestion() {
 //Function which checks whether the answer is correct or no
 function checkAnswer(answerIndex) {
   var quizState = quizQuestions[currentQuestionIndex];
+  //Had to double it to make it work for now
+  currentQuestionIndex++;
+  showQuestion();
   //Doesn't work properly
-  if (answerIndex == quizState.answer) {
+  if (answerIndex === quizState.answer) {
     //Correct answer
-    if (currentQuestionIndex >= quizQuestions.length - 1) {
+    if (currentQuestionIndex < quizQuestions.length - 1) {
       currentQuestionIndex++;
       showQuestion();
     } else {
@@ -133,15 +136,15 @@ function updateTimer() {
   if (timeLeft <= 0) {
       endQuiz();
   }
-  timer.textContent = timeLeft;
+  timer.textContent = `Time: ${timeLeft} seconds`;
 }
 
 // End quiz
 function endQuiz() {
   clearInterval(timerInterval);
-  quiz.style.display = "none";
-
+  // quiz.style.display = "none";
 
   // Attach event listener to submit button
   // submitButton.addEventListener("click", saveScore);
 }
+
