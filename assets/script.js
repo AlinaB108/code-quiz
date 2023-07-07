@@ -68,6 +68,7 @@ var rules = document.getElementById("introduction");
 var quizQuestion = document.getElementById("quizQuestion");
 var correctWrong = document.getElementById("correctWrong");
 var quizAnswers = document.getElementById("quizAnswers");
+var timer = document.getElementById('timer');
 var currentQuestionIndex = 0;
 var timeLeft = 75;
 var score = 0;
@@ -94,15 +95,36 @@ function showQuestion() {
   var quizState = quizQuestions[currentQuestionIndex];
   quizQuestion.innerText= `${currentQuestionIndex + 1}. ${quizState.question}`;
   quizAnswers.innerHTML= "";
-
+  //For loop chooses elements from the array
   for (var i = 0; i < quizState.choices.length; i++) {
       var createLi = document.createElement("li");
       var option = document.createElement("button");
       option.textContent = quizState.choices[i];
       option.dataset.index = i;
+      option.addEventListener("click", checkAnswer);
       createLi.appendChild(option);
       quizAnswers.appendChild(option);
   } 
+}
+//? when I click on an answer it should start checkAnswer function
+
+//Function which checks whether the answer is correct or no
+function checkAnswer(answerIndex) {
+  var quizState = quizQuestions[currentQuestionIndex];
+  //Doesn't work properly
+  if (answerIndex == quizState.answer) {
+    //Correct answer
+    if (currentQuestionIndex >= quizQuestions.length - 1) {
+      currentQuestionIndex++;
+      showQuestion();
+    } else {
+      endQuiz();
+    }
+  } else {
+    //Wrong answer
+    timeLeft -= 15;
+  }
+  // saveScore();
 }
 
 //Timer
@@ -112,4 +134,14 @@ function updateTimer() {
       endQuiz();
   }
   timer.textContent = timeLeft;
+}
+
+// End quiz
+function endQuiz() {
+  clearInterval(timerInterval);
+  quiz.style.display = "none";
+
+
+  // Attach event listener to submit button
+  // submitButton.addEventListener("click", saveScore);
 }
