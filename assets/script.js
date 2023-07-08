@@ -64,9 +64,7 @@ var quizQuestions = [
 //Variables
 var rules = document.getElementById("rules");
 var startBtn = document.getElementById("startBtn");
-var rules = document.getElementById("introduction");
 var quizQuestion = document.getElementById("quizQuestion");
-var correctWrong = document.getElementById("correctWrong");
 var quizAnswers = document.getElementById("quizAnswers");
 var timer = document.getElementById("timer");
 var currentQuestionIndex = 0;
@@ -111,11 +109,11 @@ function checkAnswer(answerIndex) {
   var quizState = quizQuestions[currentQuestionIndex];
   // Check if the selected choice matches the correct answer
   if (quizState.choices[answerIndex] === quizState.answer) {
+    //Correct answer
     score++;
     console.log(score);
     console.log("Clicked choice: ", quizState.choices[answerIndex]);
     console.log("Correct answer: ", quizState.answer);
-    // Correct answer
   } else {
     // Wrong answer
     timeLeft -= 15;
@@ -144,14 +142,32 @@ function updateTimer() {
 function endQuiz() {
   clearInterval(timerInterval);
   quiz.style.display = "none";
-  var message = document.createElement('h3');
-  var scoreNumber = document.createElement('h4');
+
+  //Adding text after the quiz is finished
+  var message = document.createElement('h2');
+  var scoreNumber = document.createElement('h3');
   message.textContent = "You've finished!";
-  scoreNumber.textContent = `Your final score is: ${score}`;
-  message.setAttribute("style", "font-size: 55px");
-  scoreNumber.setAttribute("style", "font-size: 30px");
+  scoreNumber.textContent = `Your final score is: ${score}0`;
   quizField.appendChild(message);
   quizField.appendChild(scoreNumber);
-  // Attach event listener to submit button
+
+  //Initials field and submit button
+  var initials = document.createElement('input');
+  initials.placeholder = "Write your initials here";
+  quizField.appendChild(initials);
+
+  //Reset game and submit buttons
+  var submitButton = document.createElement('button');
+  submitButton.setAttribute("id", "submitButton");
+  submitButton.innerText = "Submit";
+  quizField.appendChild(submitButton);
+
+  var resetButton = document.createElement('button');
+  resetButton.setAttribute("id", "resetButton")
+  resetButton.innerText = "Reset game";
+  quizField.appendChild(resetButton);
+
+
+  // resetButton.addEventListener("click", resetGame);
   // submitButton.addEventListener("click", saveScore);
 }
