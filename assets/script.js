@@ -9,7 +9,7 @@ var quizQuestions = [
   {
     question: "How do you call a function named 'myFunction'?",
     choices: ["call function myFunction()" , "call myFunction()" , "myFunction()" , "function call myFunction()"],
-    answer: "myFunction"
+    answer: "myFunction()"
   },
 
   {
@@ -91,41 +91,42 @@ function startQuiz() {
 
 //Function which shows the questions after we clicked the button
 function showQuestion() {
-    //Display questions
+  //Display questions
   var quizState = quizQuestions[currentQuestionIndex];
   quizQuestion.innerText= `${currentQuestionIndex + 1}. ${quizState.question}`;
   quizAnswers.innerHTML= "";
   //For loop chooses elements from the array
-  for (var i = 0; i < quizState.choices.length; i++) {
-      var createLi = document.createElement("li");
-      var option = document.createElement("button");
-      option.textContent = quizState.choices[i];
-      option.dataset.index = i;
-      option.addEventListener("click", () => checkAnswer(parseInt(option.dataset.index)));
-      createLi.appendChild(option);
-      quizAnswers.appendChild(option);
-  } 
+  for (let i = 0; i < quizState.choices.length; i++) {
+    var createLi = document.createElement("li");
+    var option = document.createElement("button");
+    option.textContent = quizState.choices[i];
+    option.addEventListener("click", () => checkAnswer(i));
+    createLi.appendChild(option);
+    quizAnswers.appendChild(option);
+  }
 }
-//? when I click on an answer it should start checkAnswer function
 
-//Function which checks whether the answer is correct or no
+// Function which checks whether the answer is correct or no
 function checkAnswer(answerIndex) {
   var quizState = quizQuestions[currentQuestionIndex];
-  //Had to double it to make it work for now
-  currentQuestionIndex++;
-  showQuestion();
-  //Doesn't work properly
-  if (answerIndex === quizState.answer) {
-    //Correct answer
-    if (currentQuestionIndex < quizQuestions.length - 1) {
-      currentQuestionIndex++;
-      showQuestion();
-    } else {
-      endQuiz();
-    }
+  // Check if the selected choice matches the correct answer
+  if (quizState.choices[answerIndex] === quizState.answer) {
+    score++;
+    console.log(score);
+    console.log("Clicked choice: ", quizState.choices[answerIndex]);
+    console.log("Correct answer: ", quizState.answer);
+    // Correct answer
   } else {
-    //Wrong answer
+    // Wrong answer
     timeLeft -= 15;
+  }
+  // The question index is incremented after the answer check.
+  currentQuestionIndex++;
+  // Check if we've gone through all the questions
+  if (currentQuestionIndex < quizQuestions.length) {
+    showQuestion();
+  } else {
+    endQuiz();
   }
   // saveScore();
 }
@@ -142,9 +143,15 @@ function updateTimer() {
 // End quiz
 function endQuiz() {
   clearInterval(timerInterval);
-  // quiz.style.display = "none";
-
+  quiz.style.display = "none";
+  var message = document.createElement('h3');
+  var scoreNumber = document.createElement('h4');
+  message.textContent = "You've finished!";
+  scoreNumber.textContent = `Your final score is: ${score}`;
+  message.setAttribute("style", "font-size: 55px");
+  scoreNumber.setAttribute("style", "font-size: 30px");
+  quizField.appendChild(message);
+  quizField.appendChild(scoreNumber);
   // Attach event listener to submit button
   // submitButton.addEventListener("click", saveScore);
 }
-
