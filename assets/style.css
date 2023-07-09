@@ -71,7 +71,7 @@ p {
   text-align: center;
 }
 
-#answerBtn:hover, #submitButton:hover, #resetGame:hover, #resetScore:hover {
+#startBtn:hover, #answerBtn:hover, #submitButton:hover, #resetGame:hover, #resetScore:hover {
   background-color: #67b692;
   color: white;
 }
