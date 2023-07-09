@@ -3,11 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
   <title>Code Quiz💻</title>
 </head>
 <body>
-  
+  <div id="highscore">
+    <h1>Highscores</h1>
+    <ul id="highscoresList">
+      <!-- Here I would have LIs created in highscore.js to display the score -->
+    </ul>
+    <a href="index.html"><button id="resetGame">Play Again</button></a>
+    <button id="resetScore"> Reset Score</button>
+  </div>
+
+  <script src="assets/highscore.js"></script>
   <script src="assets/script.js"></script>
 </body>
 </html>

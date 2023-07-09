@@ -64,6 +64,7 @@ var quizQuestions = [
 //Variables
 var rules = document.getElementById("rules");
 var startBtn = document.getElementById("startBtn");
+var quiz = document.getElementById("quiz");
 var quizQuestion = document.getElementById("quizQuestion");
 var quizAnswers = document.getElementById("quizAnswers");
 var timer = document.getElementById("timer");
@@ -97,6 +98,7 @@ function showQuestion() {
   for (let i = 0; i < quizState.choices.length; i++) {
     var createLi = document.createElement("li");
     var option = document.createElement("button");
+    option.setAttribute("id", "answerBtn");
     option.textContent = quizState.choices[i];
     option.addEventListener("click", () => checkAnswer(i));
     createLi.appendChild(option);
@@ -151,23 +153,39 @@ function endQuiz() {
   quizField.appendChild(message);
   quizField.appendChild(scoreNumber);
 
-  //Initials field and submit button
-  var initials = document.createElement('input');
-  initials.placeholder = "Write your initials here";
-  quizField.appendChild(initials);
-
-  //Reset game and submit buttons
-  var submitButton = document.createElement('button');
-  submitButton.setAttribute("id", "submitButton");
-  submitButton.innerText = "Submit";
-  quizField.appendChild(submitButton);
-
-  var resetButton = document.createElement('button');
-  resetButton.setAttribute("id", "resetButton")
-  resetButton.innerText = "Reset game";
-  quizField.appendChild(resetButton);
-
-
-  // resetButton.addEventListener("click", resetGame);
-  // submitButton.addEventListener("click", saveScore);
+  saveScore()
 }
+
+var highscore = [];
+
+function saveScore() {
+    //Initials field and submit button
+    var initials = document.createElement('input');
+    initials.placeholder = "Write your initials here";
+    initials.setAttribute("id", "initialsField");
+    quizField.appendChild(initials);
+  
+    var submitButton = document.createElement('button');
+    submitButton.setAttribute("id", "submitButton");
+    submitButton.innerText = "Submit";
+    quizField.appendChild(submitButton);
+    
+    //Event listener and a function to save highscore in a local storage
+    submitButton.addEventListener("click", function(event) {
+      event.preventDefault();
+
+      var scoreText = initials.value.trim();
+
+      if (scoreText === "") {
+        return;
+      }
+
+      highscore.push(scoreText);
+      initials.value = ""
+      window.location.href="score.html";
+
+      saveScore();
+      renderHighscore();
+    })
+  //Unfinished, I couldn't make the local storage work
+};
